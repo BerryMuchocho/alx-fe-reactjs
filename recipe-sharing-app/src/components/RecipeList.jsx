@@ -1,18 +1,27 @@
-import useRecipeStore from '../store/recipeStore';
+// src/components/RecipeList.jsx
+import { useRecipeStore } from "../store/recipeStore";
 
-const RecipeList = () => {
+function RecipeList() {
     const recipes = useRecipeStore((state) => state.recipes);
 
     return (
         <div>
-            {recipes.map((recipe) => (
-                <div key={recipe.id}>
-                    <h3>{recipe.title}</h3>
-                    <p>{recipe.description}</p>
-                </div>
-            ))}
+            <h2>Recipe List</h2>
+            {recipes.length === 0 ? (
+                <p>No recipes found.</p>
+            ) : (
+                <ul>
+                    {recipes.map((recipe, index) => (
+                        <li key={index}>
+                            <h3>{recipe.title}</h3>
+                            <p>{recipe.description}</p>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
-};
+}
 
 export default RecipeList;
+
