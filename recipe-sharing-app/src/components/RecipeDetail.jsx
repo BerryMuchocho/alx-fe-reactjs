@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import EditRecipeForm from './EditRecipeForm';
 import DeleteRecipeButton from './DeleteRecipeButton';
 
-const RecipeDetails = () => {
+const RecipeDetail = () => {
     const { id } = useParams();
     const recipe = useRecipeStore((state) =>
         state.recipes.find((recipe) => recipe.id === id)
@@ -23,4 +23,4 @@ const RecipeDetails = () => {
     );
 };
 
-export default RecipeDetails;
+export default RecipeDetail;
