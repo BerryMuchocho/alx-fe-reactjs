@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import RecipeList from './components/RecipeList';
-import RecipeDetail from './components/RecipeDetail';
+import RecipeDetails from './components/RecipeDetails';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<RecipeList />} />
-        <Route path="/recipe/:id" element={<RecipeDetail />} />
+        <Route path="/recipe/:id" element={<RecipeDetails />} />
       </Routes>
     </Router>
   );
