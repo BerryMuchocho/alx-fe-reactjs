@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useRecipeStore } from '../recipeStore';
 
 const RecipeList = () => {
@@ -18,12 +19,15 @@ const RecipeList = () => {
     return (
         <ul>
             {filteredRecipes.map((r) => (
-                <li key={r.id}>{r.title}</li>
+                <li key={r.id}>
+                    <Link to={`/recipes/${r.id}`}>{r.title}</Link>
+                </li>
             ))}
         </ul>
     );
 };
 
 export default RecipeList;
+
 
 
