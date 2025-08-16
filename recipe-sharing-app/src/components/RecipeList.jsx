@@ -8,6 +8,10 @@ const RecipeList = () => {
     const searchTerm = useRecipeStore((s) => s.searchTerm);
     const filterRecipes = useRecipeStore((s) => s.filterRecipes);
 
+    const favorites = useRecipeStore((s) => s.favorites);
+    const addFavorite = useRecipeStore((s) => s.addFavorite);
+    const removeFavorite = useRecipeStore((s) => s.removeFavorite);
+
     useEffect(() => {
         filterRecipes();
     }, [searchTerm, allRecipes, filterRecipes]);
@@ -18,16 +22,23 @@ const RecipeList = () => {
 
     return (
         <ul>
-            {filteredRecipes.map((r) => (
-                <li key={r.id}>
-                    <Link to={`/recipes/${r.id}`}>{r.title}</Link>
-                </li>
-            ))}
+            {filteredRecipes.map((r) => {
+                const isFavorite = favorites.includes(r.id);
+                return (
+                    <li key={r.id}>
+                        <Link to={`/recipes/${r.id}`}>{r.title}</Link>
+                        <button onClick={() => (isFavorite ? removeFavorite(r.id) : addFavorite(r.id))}>
+                            {isFavorite ? '★ Remove Favorite' : '☆ Add Favorite'}
+                        </button>
+                    </li>
+                );
+            })}
         </ul>
     );
 };
 
 export default RecipeList;
+
 
 
 
