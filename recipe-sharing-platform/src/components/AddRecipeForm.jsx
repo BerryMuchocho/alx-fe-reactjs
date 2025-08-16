@@ -4,47 +4,57 @@ function AddRecipeForm() {
     const [title, setTitle] = useState("");
     const [ingredients, setIngredients] = useState("");
     const [steps, setSteps] = useState("");
-    const [error, setError] = useState("");
+    const [errors, setErrors] = useState({});
+
+    // validation function
+    const validate = () => {
+        const newErrors = {};
+
+        if (!title.trim()) {
+            newErrors.title = "Recipe title is required.";
+        }
+        if (!ingredients.trim()) {
+            newErrors.ingredients = "Ingredients are required.";
+        } else {
+            const ingredientsList = ingredients.split("\n").filter((item) => item.trim() !== "");
+            if (ingredientsList.length < 2) {
+                newErrors.ingredients = "Please enter at least two ingredients.";
+            }
+        }
+        if (!steps.trim()) {
+            newErrors.steps = "Preparation steps are required.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0; // true if no errors
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Simple validation
-        if (!title || !ingredients || !steps) {
-            setError("All fields are required.");
-            return;
-        }
+        if (!validate()) return; // stop if validation fails
 
-        const ingredientsList = ingredients.split("\n").filter((item) => item.trim() !== "");
-        if (ingredientsList.length < 2) {
-            setError("Please enter at least two ingredients.");
-            return;
-        }
-
-        // If valid
-        setError("");
         const newRecipe = {
             id: Date.now(),
             title,
-            summary: steps.slice(0, 60) + "...", // short summary
+            summary: steps.slice(0, 60) + "...",
             image: "https://via.placeholder.com/150",
-            ingredients: ingredientsList,
+            ingredients: ingredients.split("\n").filter((item) => item.trim() !== ""),
             instructions: steps.split("\n").filter((step) => step.trim() !== "")
         };
 
         console.log("New recipe added:", newRecipe);
 
-        // Reset form
+        // reset form
         setTitle("");
         setIngredients("");
         setSteps("");
+        setErrors({});
     };
 
     return (
         <div className="max-w-2xl mx-auto p-6">
             <h2 className="text-2xl font-bold mb-4">Add a New Recipe</h2>
-
-            {error && <p className="text-red-600 mb-4">{error}</p>}
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Title */}
@@ -57,6 +67,7 @@ function AddRecipeForm() {
                         className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Enter recipe title"
                     />
+                    {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
                 </div>
 
                 {/* Ingredients */}
@@ -68,6 +79,7 @@ function AddRecipeForm() {
                         className="w-full border border-gray-300 rounded-lg p-2 h-28 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Enter ingredients, one per line"
                     ></textarea>
+                    {errors.ingredients && <p className="text-red-600 text-sm">{errors.ingredients}</p>}
                 </div>
 
                 {/* Steps */}
@@ -79,6 +91,7 @@ function AddRecipeForm() {
                         className="w-full border border-gray-300 rounded-lg p-2 h-28 focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Enter preparation steps, one per line"
                     ></textarea>
+                    {errors.steps && <p className="text-red-600 text-sm">{errors.steps}</p>}
                 </div>
 
                 {/* Submit */}
