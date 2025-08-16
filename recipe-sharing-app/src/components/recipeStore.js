@@ -2,18 +2,16 @@ import { create } from 'zustand';
 
 export const useRecipeStore = create((set, get) => ({
     recipes: [],
-
-    // NEW: search + filtered results
     searchTerm: '',
     filteredRecipes: [],
+    favorites: [],
+    recommendations: [],
 
-    // NEW: update the search term and immediately recompute filtered
     setSearchTerm: (term) => {
         set({ searchTerm: term });
         get().filterRecipes();
     },
 
-    // NEW: compute filtered recipes based on current searchTerm
     filterRecipes: () => {
         const { recipes, searchTerm } = get();
         const term = searchTerm.trim().toLowerCase();
@@ -25,7 +23,6 @@ export const useRecipeStore = create((set, get) => ({
         set({ filteredRecipes: filtered });
     },
 
-    // Keep filtered in sync when adding a recipe
     addRecipe: (newRecipe) =>
         set((state) => {
             const recipes = [...state.recipes, newRecipe];
@@ -36,7 +33,6 @@ export const useRecipeStore = create((set, get) => ({
             return { recipes, filteredRecipes: filtered };
         }),
 
-    // Keep filtered in sync when deleting a recipe
     deleteRecipe: (id) =>
         set((state) => {
             const recipes = state.recipes.filter((recipe) => recipe.id !== id);
@@ -46,4 +42,27 @@ export const useRecipeStore = create((set, get) => ({
                 : recipes;
             return { recipes, filteredRecipes: filtered };
         }),
+
+    // ⭐ Favorites
+    addFavorite: (recipeId) =>
+        set((state) => ({
+            favorites: state.favorites.includes(recipeId)
+                ? state.favorites
+                : [...state.favorites, recipeId],
+        })),
+
+    removeFavorite: (recipeId) =>
+        set((state) => ({
+            favorites: state.favorites.filter((id) => id !== recipeId),
+        })),
+
+    // 🔮 Recommendations (mock based on favorites)
+    generateRecommendations: () => {
+        const { recipes, favorites } = get();
+        const recommended = recipes.filter(
+            (recipe) =>
+                favorites.includes(recipe.id) && Math.random() > 0.5 // random pick
+        );
+        set({ recommendations: recommended });
+    },
 }));
