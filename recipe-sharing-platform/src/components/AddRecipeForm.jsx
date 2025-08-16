@@ -26,13 +26,13 @@ function AddRecipeForm() {
         }
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0; // true if no errors
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!validate()) return; // stop if validation fails
+        if (!validate()) return;
 
         const newRecipe = {
             id: Date.now(),
@@ -45,7 +45,6 @@ function AddRecipeForm() {
 
         console.log("New recipe added:", newRecipe);
 
-        // reset form
         setTitle("");
         setIngredients("");
         setSteps("");
@@ -53,10 +52,13 @@ function AddRecipeForm() {
     };
 
     return (
-        <div className="max-w-2xl mx-auto p-6">
+        <div className="max-w-2xl mx-auto p-6 shadow-md bg-white rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Add a New Recipe</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form
+                onSubmit={handleSubmit}
+                className="space-y-4 md:space-y-6"
+            >
                 {/* Title */}
                 <div>
                     <label className="block font-medium mb-1">Recipe Title</label>
@@ -64,7 +66,7 @@ function AddRecipeForm() {
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Enter recipe title"
                     />
                     {errors.title && <p className="text-red-600 text-sm">{errors.title}</p>}
@@ -76,7 +78,7 @@ function AddRecipeForm() {
                     <textarea
                         value={ingredients}
                         onChange={(e) => setIngredients(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg p-2 h-28 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="w-full border border-gray-300 rounded-lg p-2 h-28 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Enter ingredients, one per line"
                     ></textarea>
                     {errors.ingredients && <p className="text-red-600 text-sm">{errors.ingredients}</p>}
@@ -88,7 +90,7 @@ function AddRecipeForm() {
                     <textarea
                         value={steps}
                         onChange={(e) => setSteps(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg p-2 h-28 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="w-full border border-gray-300 rounded-lg p-2 h-28 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                         placeholder="Enter preparation steps, one per line"
                     ></textarea>
                     {errors.steps && <p className="text-red-600 text-sm">{errors.steps}</p>}
@@ -97,7 +99,7 @@ function AddRecipeForm() {
                 {/* Submit */}
                 <button
                     type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition"
                 >
                     Add Recipe
                 </button>
