@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// This adds the advanced user search function 
-export const fetchAdvancedUsers = async (username, location, minRepos) => {
+// Advanced search function
+export const fetchUserData = async (username, location, minRepos) => {
   let query = "";
 
   if (username) query += `${username}`;
@@ -10,6 +10,5 @@ export const fetchAdvancedUsers = async (username, location, minRepos) => {
 
   const url = `https://api.github.com/search/users?q=${query}`;
   const response = await axios.get(url);
-  return response.data; // see if this returns { total_count, items: [] }
+  return response.data; // returns { total_count, items: [] }
 };
-
