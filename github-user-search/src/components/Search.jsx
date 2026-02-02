@@ -19,7 +19,7 @@ const Search = () => {
     try {
       const data = await fetchUserData(username, location, minRepos);
       if (data.items.length === 0) {
-        setError("No users found with these criteria");
+        setError("Looks like we cant find the user");
       } else {
         setUsers(data.items);
       }
