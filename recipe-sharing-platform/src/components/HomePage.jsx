@@ -1,7 +1,14 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import data from "../data.json";
 
 function HomePage() {
+    const [recipes, setRecipes] = useState([]);
+
+    useEffect(() => {
+        setRecipes(data);
+    }, []);
+
     return (
         <div className="p-6">
             <div className="flex justify-end mb-6">
@@ -14,7 +21,7 @@ function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {data.map((recipe) => (
+                {recipes.map((recipe) => (
                     <Link key={recipe.id} to={`/recipe/${recipe.id}`}>
                         <div className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition">
                             <img
